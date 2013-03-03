@@ -1,0 +1,21 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 300px;
+    font-family: "Helvetica", sans-serif;
+    font-size: 10pt;
+}
+
+h2 {
+    font-size: 12pt;
+    font-weight: bold;
+    line-height: 1.2em;
+}
+
+ul {
+    padding: 2px 20px;
+}

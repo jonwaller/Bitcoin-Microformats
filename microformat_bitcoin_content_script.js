@@ -1,9 +1,7 @@
 
 if (window == top) {
 	var addresses = findBitcoinAddresses();
-	if (addresses.count > 0) {
-		chrome.extension.sendMessage({ addresses: addresses });
-	}
+	chrome.extension.sendMessage(addresses);
 }
 
 /* Search the page for any bitcoin related urls and returns them as array. */
