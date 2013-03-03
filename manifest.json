@@ -5,17 +5,17 @@
 
 	"description": "Detects Bitcoin microformat data in web pages. This is an ongoing project.",
 	"icons": {
-		"16": "bitcoin-16.png",
-		"48": "bitcoin-48.png",
-		"128": "bitcoin-128.png"
+		"16": "images/bitcoin-16.png",
+		"48": "images/bitcoin-48.png",
+		"128": "images/bitcoin-128.png"
 	},
 	/*"default_locale": "en",*/
 
 	"page_action": {
 		"default_title": "Bitcoin address(es) found on this page.",
 		"default_icon": {
-			"19": "bitcoin-19.png",
-			"38": "bitcoin-38.png"
+			"19": "images/bitcoin-19.png",
+			"38": "images/bitcoin-38.png"
 		}
 	},
 
