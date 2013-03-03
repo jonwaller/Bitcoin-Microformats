@@ -13,10 +13,19 @@ function showAddresses() {
 		var link = document.createElement('a');
 		link.setAttribute('href', a.url);
 		link.setAttribute('target', '_blank');
+		link.appendChild(document.createTextNode(title));
 
-		var content = document.createTextNode(title);
-		link.appendChild(content);
 		item.appendChild(link);
+		item.appendChild(document.createTextNode(' ('));
+
+		var qrLink = document.createElement('a');
+		qrLink.setAttribute('href', 'http://chart.googleapis.com/chart?chs=200x200&cht=qr&chld=H|0&chl='+encodeURIComponent(a.url));
+		qrLink.setAttribute('target', '_blank');
+		qrLink.appendChild(document.createTextNode('QR'));
+
+		item.appendChild(qrLink);
+		item.appendChild(document.createTextNode(')'));
+
 		list.appendChild(item);
 	}
 
@@ -30,8 +39,7 @@ function showAddresses() {
 		link.setAttribute('href', url);
 		link.setAttribute('target', '_blank');
 
-		var content = document.createTextNode(url);
-		link.appendChild(content);
+		link.appendChild(document.createTextNode(url));
 		item.appendChild(link);
 		list.appendChild(item);
 	}
