@@ -1,27 +1,30 @@
-var _bitcoin=null;
+
+var _addresses = null;
 
 chrome.extension.onMessage.addListener(
-	function(request, sender, sendResponse){
-		_bitcoins=request.bitcoins;
-		var numBitcoins = request.bitcoins.length;
-		if (numBitcoins>0){
-			var title = "Bitcoin address found on this page.";
-			if (numBitcoins>1){
-				title = numBitcoins+ " Bitcoin addresses found on this page.";
+	function (request, sender, sendResponse) {
+		_addresses = request.addresses;
+		if (_addresses.count > 0) {
+			var title = 'Bitcoin address found';
+			if (_addresses.count > 1) {
+				title = _addresses.count + ' Bitcoin addresses found';
 			}
-			var tabId=sender.tab.id;
-			chrome.pageAction.setTitle({tabId:tabId, title:title});
-			chrome.pageAction.show(tabId);
+
+			chrome.pageAction.setTitle({ tabId: sender.tab.id, title: title });
+			chrome.pageAction.show(sender.tab.id);
 		}
 		sendResponse();
 	}
 );
 
 chrome.pageAction.onClicked.addListener(
-	function(tab) {
-		if (_bitcoins!=null && _bitcoins.length>0){
-			for(var i=0;i<_bitcoins.length;i++){
-				chrome.tabs.create({url:_bitcoins[i]});
+	function (tab) {
+		if (_addresses !== null && _addresses.count > 0) {
+			for (var i = 0; i < _addresses.bitcoin.length; i++) {
+				chrome.tabs.create({ url: _addresses.bitcoin[i] });
+			}
+			for (var i = 0; i < _addresses.other.length; i++) {
+				chrome.tabs.create({ url: _addresses.other[i] });
 			}
 		}
 	}
