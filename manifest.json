@@ -22,7 +22,7 @@
 	},
 	"content_scripts": [
 		{
-			"matches": ["http://*/*"],
+			"matches": ["http://*/*", "https://*/*"],
 			"js": ["microformat_bitcoin_content_script.js"]
 		}
 	],
