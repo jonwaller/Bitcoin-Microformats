@@ -1,9 +1,7 @@
 if (window == top) {
 	var bitcoins = findBitcoins();
 	if (bitcoins!=null && bitcoins.length>0){
-		chrome.extension.sendRequest(
-			{bitcoins: bitcoins} //Hey, background.html, I'm sending you the bitcoins.
-		);
+		chrome.extension.sendMessage({ bitcoins: bitcoins });
 	}
 }
 

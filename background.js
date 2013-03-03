@@ -1,7 +1,6 @@
-<script>
 var _bitcoin=null;
 
-chrome.extension.onRequest.addListener(
+chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse){
 		_bitcoins=request.bitcoins;
 		var numBitcoins = request.bitcoins.length;
@@ -27,4 +26,3 @@ chrome.pageAction.onClicked.addListener(
 		}
 	}
 );
-</script>
