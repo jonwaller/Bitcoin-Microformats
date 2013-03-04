@@ -1,0 +1,26 @@
+
+body {
+    width: 350px;
+    font-family: "Helvetica", sans-serif;
+    font-size: small;
+}
+
+h2 {
+    margin: 2px;
+    font-size: small;
+    font-weight: bold;
+    line-height: 1.2em;
+}
+
+ul {
+    margin: 2px;
+    padding: 2px;
+}
+
+li {
+    list-style-type: none;
+    background-image: url('chrome-extension://__MSG_@@extension_id__/images/bitcoin-16.png');
+    background-repeat: no-repeat;
+    background-position: 2px center;
+    padding: 1px 5px 1px 23px;
+}

@@ -1,23 +1,66 @@
+
 if (window == top) {
-	var bitcoins = findBitcoins();
-	if (bitcoins!=null && bitcoins.length>0){
-		chrome.extension.sendRequest(
-			{bitcoins: bitcoins} //Hey, background.html, I'm sending you the bitcoins.
-		);
-	}
+	var addresses = findBitcoinAddresses();
+	chrome.extension.sendMessage(addresses);
 }
 
-// Search the HEAD for <link rel="bitcoin" href="xxxx" />, returns array of urls.
-// Return null if none is found.
-function findBitcoins(){
+/* Search the page for any bitcoin related urls and returns them as array. */
+function findBitcoinAddresses() {
 	var result = document.evaluate(
-		'//link[@rel="bitcoin"]',
+		'//link[starts-with(@href, "bitcoin:") or @rel="bitcoin"] | //a[starts-with(@href, "bitcoin:") or @rel="bitcoin"]',
 		document, null, 0, null);
-			
-	var bitcoins = [];
+
+	var bitcoin = {};
+	var other = {};
 	var item;
-	while (item = result.iterateNext()){
-		bitcoins.push(item.href);
+	while (item = result.iterateNext()) {
+		var parsed = parseBitcoinURL(item.href);
+		if (!parsed) {
+			other[item.href] = true;
+		} else {
+			bitcoin[parsed.address] = parsed;
+		}
 	}
-	return (bitcoins.length>0)?bitcoins:null;
+
+	var count = 0;
+	var output = { bitcoin: [], other: [] }
+
+	for (var key in bitcoin) {
+		if (bitcoin.hasOwnProperty(key)) {
+			output.bitcoin.push(bitcoin[key]);
+			count += 1;
+		}
+	}
+
+	for (var key in other) {
+		if (other.hasOwnProperty(key)) {
+			output.other.push(key);
+			count += 1;
+		}
+	}
+
+	output.count = count;
+	return output;
+}
+
+/* Parse bitcoin URL query keys. */
+function parseBitcoinURL(url) {
+	var r = /^bitcoin:([a-zA-Z0-9]{27,34})(?:\?(.*))?$/;
+	var match = r.exec(url);
+	if (!match) return null;
+
+	var parsed = { url: url }
+
+	if (match[2]) {
+		var queries = match[2].split('&');
+		for (var i = 0; i < queries.length; i++) {
+			var query = queries[i].split('=');
+			if (query.length == 2) {
+				parsed[query[0]] = decodeURIComponent(query[1].replace(/\+/g, '%20'));
+			}
+		}
+	}
+
+	parsed.address = match[1];
+	return parsed;
 }
