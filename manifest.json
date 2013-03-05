@@ -19,7 +19,6 @@
 	},
 
 	"background": {
-		"persistent": false,
 		"scripts": ["background.js"]
 	},
 	"content_scripts": [

@@ -1,6 +1,8 @@
 
 function showAddresses() {
-	var addresses = chrome.extension.getBackgroundPage().addresses;
+	var bg = chrome.extension.getBackgroundPage();
+	if (bg.current_tab === null) return;
+	var addresses = bg.addresses[bg.current_tab];
 	if (!addresses) return;
 
 	var list = document.getElementById('bitcoin-list');
