@@ -1,12 +1,13 @@
 
-var addresses;
+var addresses = {};
+var current_tab = null;
 
 chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
-	addresses = request;
-	if (addresses.count > 0) {
+	addresses[sender.tab.id] = request;
+	if (request.count > 0) {
 		var title = 'Bitcoin address found';
-		if (addresses.count > 1) {
-			title = addresses.count + ' Bitcoin addresses found';
+		if (request.count > 1) {
+			title = request.count + ' Bitcoin addresses found';
 		}
 
 		chrome.pageAction.setTitle({ tabId: sender.tab.id, title: title });
@@ -15,4 +16,12 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
 	} else {
 		chrome.pageAction.hide(sender.tab.id);
 	}
+});
+
+chrome.tabs.onActivated.addListener(function (activeInfo) {
+	current_tab = activeInfo.tabId;
+});
+
+chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
+	delete addresses[tabId];
 });
